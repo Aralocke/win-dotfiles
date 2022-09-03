@@ -1,0 +1,6 @@
+[user]
+	email = info@phantomnet.net
+	name = Daniel Weiner
+[core]
+	longpaths = true
+	autocrlf = input
