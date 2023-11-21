@@ -3,7 +3,7 @@
 export DEV_ENV="${HOME}/Development/Environment"
 export DEV_CACHE="${HOME}/Development/Cache"
 
-GO_VERSION="go1.17"
+GO_VERSION="go1.21"
 JAVA_VERSION="java-11-openjdk-11.0.12-1"
 PY_VERSION="Python39"
 
@@ -14,11 +14,11 @@ DEV_ENV_PATH="${DEV_ENV}/Dotfiles/bin"
 
 # Setup the GO environment
 if [ -d "${DEV_ENV}/Go" ]; then
-    DEV_ENV_PATH="${DEV_ENV_PATH}:${DEV_ENV}/Go/${GO_VERSION}/bin"
+    DEV_ENV_PATH="${DEV_ENV_PATH}:${DEV_ENV}/Go/bin"
 
     export GO11MODULE=on
-    export GOCACHE="${DEV_CACHE}/Go/${GO_VERSION}/build"
-    export GOPATH="${DEV_CACHE}/Go/${GO_VERSION}"
+    export GOCACHE="${DEV_CACHE}/Go/build"
+    export GOPATH="${DEV_CACHE}/Go"
 fi
 
 # Setup the JAVA environment
