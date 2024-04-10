@@ -10,4 +10,9 @@ export LANG="en_US.UTF-8"
 
 # Initialize the following module scripts
 source ${DOT_ROOT}/env.sh
-source ${DOT_ROOT}/ssh-agent.sh
+
+# If we did not load the windows SSH environment we will now load
+# the environemnt from the SSH agent.
+if [ -z "${GIT_SSH}" ]; then
+    source ${DOT_ROOT}/ssh-agent.sh
+fi

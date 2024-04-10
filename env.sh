@@ -3,18 +3,21 @@
 export DEV_ENV="${HOME}/Development/Environment"
 export DEV_CACHE="${HOME}/Development/Cache"
 
-GO_VERSION="go1.21"
-JAVA_VERSION="java-11-openjdk-11.0.12-1"
-PY_VERSION="Python39"
+if [ ! -d "${DEV_CACHE}" ]; then
+    mkdir -p "${DEV_CACHE}"
+fi
 
-# We include the DOtfiles "bin" folder to the DEV path first.
+JAVA_VERSION="java-11-openjdk-11.0.12-1"
+
+# We include the Dotfiles "bin" folder to the DEV path first.
 # This gives something we can always append to safely when
 # building the PATH.
 DEV_ENV_PATH="${DEV_ENV}/Dotfiles/bin"
 
 # Setup the GO environment
 if [ -d "${DEV_ENV}/Go" ]; then
-    DEV_ENV_PATH="${DEV_ENV_PATH}:${DEV_ENV}/Go/bin"
+    GO_VERSION=$(cd ${DEV_ENV}/Go && ls --color=never -d go* | sort -r | head -n 1)
+    DEV_ENV_PATH="${DEV_ENV_PATH}:${DEV_ENV}/Go/${GO_VERSION}/bin"
 
     export GO11MODULE=on
     export GOCACHE="${DEV_CACHE}/Go/build"
@@ -28,6 +31,7 @@ fi
 
 # Setup the Python Environment
 if [ -d "${DEV_ENV}/Python" ]; then
+    PY_VERSION=$(cd ${DEV_ENV}/Python && ls --color=never -d Python* | sort -r | head -n 1)
     PYTHON_PATH="${DEV_ENV}/Python/${PY_VERSION}"
 
     if [ -d "${PYTHON_PATH}/Scripts" ]; then
@@ -57,3 +61,12 @@ fi
 
 # Export the final PATH variable to the environment
 export PATH="${DEV_ENV_PATH}:${PATH}"
+
+# Detect if the OpenSSH client is available on Windows already
+# if it is, we want to use that version instead of the one that
+# comes built into Git Bash.
+WIN32_OPENSSH="/c/Windows/System32/OpenSSH"
+if [ -d "${WIN32_OPENSSH}" ]; then
+    export PATH="${WIN32_OPENSSH}:${PATH}"
+    export GIT_SSH="${WIN32_OPENSSH}/ssh"
+fi
