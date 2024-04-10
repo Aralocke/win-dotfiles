@@ -17,7 +17,7 @@ DEV_ENV_PATH="${DEV_ENV}/Dotfiles/bin"
 # Setup the GO environment
 if [ -d "${DEV_ENV}/Go" ]; then
     GO_VERSION=$(cd ${DEV_ENV}/Go && ls --color=never -d go* | sort -r | head -n 1)
-    DEV_ENV_PATH="${DEV_ENV_PATH}:${DEV_ENV}/Go/${GO_VERSION}/bin"
+    DEV_ENV_PATH="${DEV_ENV_PATH}:${DEV_ENV}/Go/${GO_VERSION%/}/bin"
 
     export GO11MODULE=on
     export GOCACHE="${DEV_CACHE}/Go/build"
@@ -32,7 +32,7 @@ fi
 # Setup the Python Environment
 if [ -d "${DEV_ENV}/Python" ]; then
     PY_VERSION=$(cd ${DEV_ENV}/Python && ls --color=never -d Python* | sort -r | head -n 1)
-    PYTHON_PATH="${DEV_ENV}/Python/${PY_VERSION}"
+    PYTHON_PATH="${DEV_ENV}/Python/${PY_VERSION%/}"
 
     if [ -d "${PYTHON_PATH}/Scripts" ]; then
         # Ensure that the scripts directory for Python global modules
