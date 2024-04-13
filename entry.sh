@@ -6,6 +6,8 @@ if [ -n "${DOT_ENV}" ]; then
     export DOT_ROOT="${HOME}/Development/Environment/Dotfiles"
 fi
 
+export EDITOR=vim
+export PROMPT_COMMAND="history -a; history -n"
 export LANG="en_US.UTF-8"
 
 # Initialize the following module scripts

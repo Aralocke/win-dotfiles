@@ -65,8 +65,13 @@ export PATH="${DEV_ENV_PATH}:${PATH}"
 # Detect if the OpenSSH client is available on Windows already
 # if it is, we want to use that version instead of the one that
 # comes built into Git Bash.
-WIN32_OPENSSH="/c/Windows/System32/OpenSSH"
-if [ -d "${WIN32_OPENSSH}" ]; then
-    export PATH="${WIN32_OPENSSH}:${PATH}"
-    export GIT_SSH="${WIN32_OPENSSH}/ssh"
+WIN32_OPENSSH_LATEST="/c/Program Files/OpenSSH"
+WIN32_OPENSSH_DEFAULT="/c/Windows/System32/OpenSSH"
+
+if [ -d "${WIN32_OPENSSH_LATEST}" ]; then
+    export PATH="${WIN32_OPENSSH_LATEST}:${PATH}"
+elif [ -d "${WIN32_OPENSSH_DEFAULT}" ]; then
+    export PATH="${WIN32_OPENSSH_DEFAULT}:${PATH}"
 fi
+
+export GIT_SSH="ssh"
