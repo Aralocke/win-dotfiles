@@ -7,7 +7,9 @@ if [ ! -d "${DEV_CACHE}" ]; then
     mkdir -p "${DEV_CACHE}"
 fi
 
-JAVA_VERSION="java-11-openjdk-11.0.12-1"
+if [ -f "${DEV_ENV}/.versions" ]; then
+    source "${DEV_ENV}/.versions"
+fi
 
 # We include the Dotfiles "bin" folder to the DEV path first.
 # This gives something we can always append to safely when
@@ -26,13 +28,19 @@ fi
 
 # Setup the JAVA environment
 if [ -d "${DEV_ENV}/Java" ]; then
+    if [ -z "${JAVA_VERSION}" ]; then
+        JAVA_VERSION=$(cd ${DEV_ENV}/Java && ls --color=never -d java* | sort -r | head -n 1)
+    fi
     DEV_ENV_PATH="${DEV_ENV_PATH}:${DEV_ENV}/Java/RedHat/${JAVA_VERSION}/bin"
 fi
 
 # Setup the Python Environment
 if [ -d "${DEV_ENV}/Python" ]; then
-    PY_VERSION=$(cd ${DEV_ENV}/Python && ls --color=never -d Python* | sort -r | head -n 1)
-    PYTHON_PATH="${DEV_ENV}/Python/${PY_VERSION%/}"
+    if [ -z "${PYTHON_VERSION}" ]; then
+        PYTHON_VERSION=$(cd ${DEV_ENV}/Python && ls --color=never -d Python* | sort -r | head -n 1)
+    fi
+
+    PYTHON_PATH="${DEV_ENV}/Python/${PYTHON_VERSION%/}"
 
     if [ -d "${PYTHON_PATH}/Scripts" ]; then
         # Ensure that the scripts directory for Python global modules
